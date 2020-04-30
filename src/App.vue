@@ -1,6 +1,9 @@
 <template>
   <div>
+    <!-- 头部组件 -->
     <top></top>
+
+    <!-- 主体组件 -->
     <contenBox></contenBox>
   </div>
 </template>
