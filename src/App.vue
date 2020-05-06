@@ -1,30 +1,22 @@
 <template>
-  <div>
-    <!-- 头部组件 -->
-    <top></top>
-
-    <!-- 主体组件 -->
-    <contenBox></contenBox>
+  <div id="app">
+    <top />
+    <index />
   </div>
 </template>
 
 <script>
-import top from './components/01-header.vue'
-import contenBox from './components/02-content.vue'
-
+import top from './components/01.top.vue';
+import index from './components/02.index.vue';
 export default {
-  // name:'app',
+  name: 'app',
   components: {
-    top:top,
-    contenBox:contenBox
+    top,
+    index
   }
-}
+};
 </script>
 
-<style>
-*{
-  margin: 0;
-  padding: 0;
-}
+<style >
 
 </style>
