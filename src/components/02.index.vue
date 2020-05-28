@@ -1,6 +1,5 @@
 <template>
   <div class="index-container">
-    <!-- 导航区域 -->
     <div class="nav" >
       <ul>
         <li>
@@ -29,14 +28,11 @@
         </li>
       </ul>
     </div>
-    <!-- 主体区域 -->
     <div class="main">
       <router-view></router-view>
     </div>
-    <!-- 播放标签 -->
     <div class="player">
-      <!-- autoplay 自动播放 -->
-      <audio :src='musicUrl' controls autoplay></audio>
+      <audio :src='musicUrl' controls></audio>
     </div>
   </div>
 </template>
