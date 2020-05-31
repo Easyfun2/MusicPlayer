@@ -1,6 +1,9 @@
 <template>
   <div id="app">
     <top />
+    <!-- <div style="width:200px; height:200px; background-color:black"> 
+      haodi
+    </div> -->
     <index />
   </div>
 </template>

@@ -7,6 +7,19 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 // 插件 Element-ui
 Vue.use(ElementUI)
+Vue.filter('durationInit',function(val){
+  let min = parseInt(val / 1000 / 60);
+  let sec = parseInt((val / 1000) % 60);
+  if (min < 10) {
+    min = "0" + min;
+  }
+  if (sec < 10) {
+    sec = "0" + sec;
+  }
+  // console.log(min + '|' + sec)
+
+  return min + ":" + sec;
+})
 
 // 导入全局初始化样式
 import './assets/index.css'

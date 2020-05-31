@@ -1,7 +1,9 @@
 <template>
   <div class="songs-container">
     <div class="tab-bar">
-      <span class="item active">全部</span>
+      <span class="item active" 
+        :class={active:tag == "全部"
+        @click="tag = '全部'"}>全部</span>
       <span class="item">华语</span>
       <span class="item">欧美</span>
       <span class="item">日本</span>
@@ -18,59 +20,58 @@
         <th>时长</th>
       </thead>
       <tbody>
-        <tr class="el-table__row">
-          <td>1</td>
+        <tr class="el-table__row" 
+          v-for="(item,index) in newSongList"
+          :key="index">
+          <td>{{index+1}}</td>
           <td>
             <div class="img-wrap">
-              <img src="../assets/songCover.jpg" alt="" />
+              <img :src="item.album.blurPicUrl" alt="" />
               <span class="iconfont icon-play"></span>
             </div>
           </td>
           <td>
             <div class="song-wrap">
               <div class="name-wrap">
-                <span>你要相信这不是最后一天</span>
+                <span>{{item.name}}</span>
                 <span class="iconfont icon-mv"></span>
               </div>
-              <span>电视剧加油练习生插曲</span>
+              <span>{{item.album.name}}</span>
             </div>
           </td>
-          <td>华晨宇</td>
-          <td>你要相信这不是最后一天</td>
-          <td>06:03</td>
+          <td>{{item.album.artists[0].name}}</td>
+          <td>{{item.album.name}}</td>
+          <td>{{item.duration | durationInit}}</td>
         </tr>
-        <tr class="el-table__row">
-          <td>2</td>
-          <td>
-            <div class="img-wrap">
-              <img src="../assets/songCover.jpg" alt="" />
-              <span class="iconfont icon-play"></span>
-            </div>
-          </td>
-          <td>
-            <div class="song-wrap">
-              <div class="name-wrap">
-                <span>你要相信这不是最后一天</span>
-                <span class="iconfont icon-mv"></span>
-              </div>
-            </div>
-          </td>
-          <td>华晨宇</td>
-          <td>你要相信这不是最后一天</td>
-          <td>06:03</td>
-        </tr>
+
       </tbody>
     </table>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'songs',
   data() {
     return {
- 
+      newSongList:[],
+      tag:"全部"
     };
+  },
+  created(){
+    axios({
+      url:"https://autumnfish.cn/top/song",
+      methods:'get',
+      params:{
+        type:0
+      }
+    }).then(
+      res=>{
+        this.newSongList = res.data.data
+        console.log('first.newSongList',this.newSongList)
+      }
+    )
   }
 };
 </script>
