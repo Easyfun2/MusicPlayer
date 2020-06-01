@@ -2,7 +2,7 @@
   <div class="result-container">
     <div class="title-wrap">
       <h2 class="title">{{ keywords }}</h2>
-      <span class="sub-title">{{ song_count }}</span>
+      <span class="sub-title">找到{{ song_count }}个结果</span>
     </div>
     <el-tabs v-model="activeIndex">
       <el-tab-pane label="歌曲" name="songs">
@@ -19,7 +19,7 @@
               v-for="(item, index) in songList"
               :key="index"
               class="el-table__row"
-              @click="playMusic(item.id)"
+              @dbclick="playMusic(item.id)"
             >
               <td>{{ index + 1 }}</td>
               <td>
@@ -63,7 +63,7 @@
             <div class="img-wrap">
               <div class="num-wrap">
                 播放量:
-                <span class="num">{{ item.playCount }}</span>
+                <span class="num">{{ item.playCount | InitPlayCount }}</span>
               </div>
               <img :src="item.coverImgUrl" alt="" />
               <span class="iconfont icon-play"></span>
@@ -85,9 +85,9 @@
               <span class="iconfont icon-play"></span>
               <div class="num-wrap">
                 <div class="iconfont icon-play"></div>
-                <div class="num">{{ item.playCount }}</div>
+                <div class="num">{{ item.playCount | InitPlayCount}}</div>
               </div>
-              <span class="time">{{ item.duration }}</span>
+              <span class="time">{{ item.duration | durationInit}}</span>
             </div>
             <div class="info-wrap">
               <div class="name">{{ item.name }}</div>
@@ -177,24 +177,24 @@ export default {
           // 总数
           this.mv_count = res.data.result.mvCount
           // 处理数据
-          for (let i = 0; i < this.mv.length; i++) {
-            // 时间
-            let min = parseInt(this.mv[i].duration / 1000 / 60)
-            let sec = parseInt((this.mv[i].duration / 1000) % 60)
-            if (min < 10) {
-              min = '0' + min
-            }
-            if (sec < 10) {
-              sec = '0' + sec
-            }
-            this.mv[i].duration = min + ':' + sec
+          // for (let i = 0; i < this.mv.length; i++) {
+          //   // 时间
+          //   let min = parseInt(this.mv[i].duration / 1000 / 60)
+          //   let sec = parseInt((this.mv[i].duration / 1000) % 60)
+          //   if (min < 10) {
+          //     min = '0' + min
+          //   }
+          //   if (sec < 10) {
+          //     sec = '0' + sec
+          //   }
+          //   this.mv[i].duration = min + ':' + sec
 
-            // 播放次数
-            if (this.mv[i].playCount > 100000) {
-              this.mv[i].playCount =
-                parseInt(this.mv[i].playCount / 10000) + '万'
-            }
-          }
+          //   // 播放次数
+          //   if (this.mv[i].playCount > 100000) {
+          //     this.mv[i].playCount =
+          //       parseInt(this.mv[i].playCount / 10000) + '万'
+          //   }
+          // }
         })
     },
     toMV(id){
@@ -205,8 +205,6 @@ export default {
         // 跳转并携带数据即可
         this.$router.push(`/playlist?q=${id}`)
       },
-        // })
-    // },
 
     // 播放音乐
     playMusic(id) {
@@ -247,7 +245,7 @@ export default {
           type = 100;
           limit = 10;
           break;
-
+  
         case "mv":
           type = 1004;
           limit = 8;

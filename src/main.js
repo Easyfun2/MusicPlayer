@@ -7,6 +7,8 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 // 插件 Element-ui
 Vue.use(ElementUI)
+
+// 处理歌曲时间 
 Vue.filter('durationInit',function(val){
   let min = parseInt(val / 1000 / 60);
   let sec = parseInt((val / 1000) % 60);
@@ -19,6 +21,35 @@ Vue.filter('durationInit',function(val){
   // console.log(min + '|' + sec)
 
   return min + ":" + sec;
+})
+
+// 处理歌曲播放量
+Vue.filter('InitPlayCount',function(val){
+  // console.log(val)
+  // console.log(val.toString().length)
+  if(val >= 100000){
+    // let res = parseInt(val / 10000) + '万'
+    let res = (val / 10000).toFixed(2) + '万'
+    // console.log(val / 10000)
+    // console.log(res)
+    return res
+  }else{
+    return val
+  }
+
+})
+
+Vue.filter('dataFormat', function (originVal) {
+  const dt = new Date(originVal)
+  const y = dt.getFullYear()
+  const m = (dt.getMonth() + 1 + '').padStart(2, '0')
+  const d = (dt.getDate() + 1 + '').padStart(2, '0')
+
+  const hh = (dt.getHours() + 1 + '').padStart(2, '0')
+  const mm = (dt.getMinutes() + 1 + '').padStart(2, '0')
+  const ss = (dt.getSeconds() + 1 + '').padStart(2, '0')
+  // return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+  return `${y}-${m}-${d}`
 })
 
 // 导入全局初始化样式

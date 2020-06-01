@@ -6,34 +6,23 @@
       <div class="video-wrap">
         <video
           controls
-          src="https://nie.v.netease.com/r/video/20180531/44f868de-deef-4409-8325-3bb3b5567f2c.mp4"
+          :src="mvVal.url"
         ></video>
       </div>
       <!-- mv信息 -->
       <div class="info-wrap">
         <div class="singer-info">
           <div class="avatar-wrap">
-            <img src="../assets/avatar.jpg" alt="" />
+            <img :src="mvInfo.cover" alt="" />
           </div>
-          <span class="name">TF Boys</span>
+          <span class="name">{{mvInfo.artistName}}</span>
         </div>
         <div class="mv-info">
-          <h2 class="title">TF BOYS LIVE 秀 王源《淘汰》</h2>
-          <span class="date">发布：2014-11-04</span>
-          <span class="number">播放：94526次</span>
+          <h2 class="title">{{mvInfo.name}}</h2>
+          <span class="date">发布：{{mvInfo.publishTime}}</span>
+          <span class="number">播放：{{mvInfo.playCount}}次</span>
           <p class="desc">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-            Consequuntur saepe aut officia itaque exercitationem culpa facere
-            doloremque voluptates id non nam, aliquid ipsum laborum odit
-            accusantium dolorem eligendi veniam dolore ea aperiam labore
-            cupiditate et a. Necessitatibus eaque blanditiis possimus nobis
-            ullam reprehenderit animi, vero reiciendis eos, deleniti commodi,
-            consequatur dolorem iusto. Assumenda doloribus soluta temporibus ut
-            dolorum corporis quos! Quisquam consectetur dolore iste quo
-            praesentium dolorum excepturi, at sapiente pariatur quis! Neque ex
-            cum, nobis aspernatur temporibus, voluptates at obcaecati dolore est
-            repudiandae, veniam laborum fuga corrupti illum ut. Ad a tempore
-            sint adipisci vero, delectus ducimus debitis molestias!
+            {{mvInfo.desc}}
           </p>
         </div>
       </div>
@@ -151,6 +140,7 @@
 </template>
 
 <script>
+import Axios from 'axios';
 export default {
   name: 'mv',
   data() {
@@ -160,12 +150,48 @@ export default {
       // 页码
       page: 1,
       // 页容量
-      limit: 10
+      limit: 10,
+      mvVal:{},
+      mvInfo:{}
     };
+  },
+  created(){
+    this.getMvList()
+    this.getMvInfo()
   },
   methods: {
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
+    },
+    getMvList:function(){
+      Axios({
+        url:'https://autumnfish.cn/mv/url',
+        methods:'get',
+        params:{
+          id:this.$route.query.id
+        }
+      }).then(
+        res =>{
+          this.mvVal = res.data.data
+          console.log('dd',res)
+        }
+      )
+    },
+    getMvInfo:function(){
+
+      Axios({
+        url:'https://autumnfish.cn/mv/detail',
+        methods:'get',
+        params:{
+          mvid:this.$route.query.id
+        }
+      }).then(
+        res =>{
+          console.log('sss',res)
+          this.mvInfo = res.data.data
+        }
+      )
+      
     }
   }
 };
