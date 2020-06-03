@@ -115,7 +115,6 @@
 
 <script>
 import Axios from 'axios';
-// import func from '../../vue-temp/vue-editor-bridge';
 export default {
   name: 'mv',
   data() {
@@ -187,8 +186,9 @@ export default {
       }).then(
         res=>{
           this.mvComment = res.data
-          console.log('评论数据获取成功',res)
-          console.log('评论数据获取成功',this.mvComment)
+          this.total = res.data.total
+          // console.log('评论数据获取成功',res)
+          // console.log('评论数据获取成功',this.mvComment)
         }
       )
     },

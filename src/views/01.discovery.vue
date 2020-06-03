@@ -18,7 +18,7 @@
               <span class="desc">{{item.copywriter}}</span>
             </div>
             <img :src="item.picUrl" alt="" />
-            <span class="iconfont icon-play"></span>
+            <span class="iconfont icon-play" @click="toPlayList(item.id)"></span>
           </div>
           <p class="name">{{item.name}}</p>
         </div>
@@ -50,10 +50,10 @@
         <div class="item" v-for="(item,index) in mvList" :key="index">
           <div class="img-wrap">
             <img :src="item.picUrl" alt="" />
-            <span class="iconfont icon-play"></span>
+            <span class="iconfont icon-play" @click="toMv(item.id)"></span>
             <div class="num-wrap">
               <div class="iconfont icon-play"></div>
-              <div class="num">{{ item.playCount }}</div>
+              <div class="num">{{ item.playCount | InitPlayCount}}</div>
             </div>
           </div>
           <div class="info-wrap">
@@ -130,6 +130,12 @@ export default {
     )
   },
   methods:{
+    toMv:function(id){
+      this.$router.push(`/mv?id=${id}`)
+    },
+    toPlayList:function(id){
+      this.$router.push(`/playlist?q=${id}`)
+    },
     playMusic(musicId){
       console.log("是否拿到了id",musicId)
 

@@ -121,6 +121,8 @@ export default {
   created() {
     this.keywords = this.$route.query.q;
     this.getSongList(this.keywords);
+
+    // console.log(' 失败this.keywords')
   },
   methods: {
     getSongList(val) {
@@ -129,13 +131,14 @@ export default {
         url: "https://autumnfish.cn/search",
         methods: "get",
         params: {
-          keywords: val,
+          keywords: this.$route.query.q,
           limit: 10,
+          type:1
         },
       }).then((res) => {
-        // 一、获取歌曲
-        this.songList = res.data.result.songs;
         console.log("res的内容", res);
+        this.songList = res.data.result.songs;
+
         this.playlists = res.data.result.playlists;
         this.song_count = res.data.result.songCount;
       })
@@ -150,16 +153,13 @@ export default {
           type: 1000,
         },
       }).then((res) => {
-        this.playlists = res.data.result.playlists;
         // 总数
+        this.playlists = res.data.result.playlists;
+
         this.songList_count = res.data.result.playlistCount;
-        // 处理 播放次数
-        for (let i = 0; i < this.playlists.length; i++) {
-          if (this.playlists[i].playCount > 100000) {
-            this.playlists[i].playCount =
-              parseInt(this.playlists[i].playCount / 10000) + "万";
-          }
-        }
+        console.log('this.songList_count',this.songList_count)
+        console.log('res',res)
+
       }),
 
         // 三、 获取MV列表
@@ -176,27 +176,11 @@ export default {
           this.mv = res.data.result.mvs
           // 总数
           this.mv_count = res.data.result.mvCount
-          // 处理数据
-          // for (let i = 0; i < this.mv.length; i++) {
-          //   // 时间
-          //   let min = parseInt(this.mv[i].duration / 1000 / 60)
-          //   let sec = parseInt((this.mv[i].duration / 1000) % 60)
-          //   if (min < 10) {
-          //     min = '0' + min
-          //   }
-          //   if (sec < 10) {
-          //     sec = '0' + sec
-          //   }
-          //   this.mv[i].duration = min + ':' + sec
 
-          //   // 播放次数
-          //   if (this.mv[i].playCount > 100000) {
-          //     this.mv[i].playCount =
-          //       parseInt(this.mv[i].playCount / 10000) + '万'
-          //   }
-          // }
         })
     },
+
+
     toMV(id){
         this.$router.push(`/mv?q=${id}`)
       },
@@ -261,22 +245,6 @@ export default {
 
       console.log(..."此时的纸");
       console.log("此时的值", type, "|", limit);
-    },
-  },
-  filters: {
-    durationInit: function(val) {
-      let min = parseInt(val / 1000 / 60);
-      let sec = parseInt((val / 1000) % 60);
-      if (min < 10) {
-        min = "0" + min;
-      }
-      if (sec < 10) {
-        sec = "0" + sec;
-      }
-      // console.log(min + '|' + sec)
-
-      return min + ":" + sec;
-      // this.songList[i].duration = min + ':' + sec
     },
   },
 };

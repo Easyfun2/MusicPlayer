@@ -118,7 +118,7 @@
                 <span class="num">{{ item.playCount }}</span>
               </div>
               <img :src="item.coverImgUrl" alt="" />
-              <span class="iconfont icon-play"></span>
+              <span class="iconfont icon-play" @click="toPlayList(item.id)"></span>
             </div>
             <p class="name">{{ item.name }}</p>
           </div>
@@ -160,6 +160,9 @@ export default {
     this.getSongList();
   },
   methods: {
+    toPlayList:function(id){
+      this.$router.push(`/playlist?q=${id}`)
+    },
     handleCurrentChange(val) {
       this.page = val;
       this.getSongList();
